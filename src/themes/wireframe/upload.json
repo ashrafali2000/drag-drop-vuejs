@@ -1,0 +1,23 @@
+[
+    {
+        "id": "UploadFile",
+        "type": "Upload",
+        "category": "WireFrame",
+        "subcategory": "XBoxCamera",
+        "_type": "Widget",
+        "name": "Upload",
+        "_extends": "TextBox",
+        "z": 0,
+        "props": {
+            "label": "Choose File"
+        },
+        "has": {
+            "backgroundColor": true,
+            "border": true,
+            "label": true,
+            "padding": true
+        },
+        "actions": {},
+        "style": {}
+    }
+]

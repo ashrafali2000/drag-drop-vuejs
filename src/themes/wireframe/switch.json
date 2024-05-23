@@ -1,0 +1,35 @@
+[
+	{
+		"id" : "Switch",
+		 "type" : "Switch",
+		 "name" : "Switch",
+		 "category" : "WireFrame",
+		 "subcategory" : "Form",
+		 "_type" : "Widget",
+		 "x" : 0,
+	     "y" : 0,
+		 "w": "@box-width-m",
+		 "h": "@form-height", 
+	     "z" : 0,
+	     "props" : {
+	        "checked" : false
+	     },
+	     "has" : {
+	        "onclick" : true,
+	        "border" : true,
+	        "data" : true
+	     },
+	     "style" : { 
+			"background": "@background-active",
+			"color": "@form-color",
+
+			"borderRadius": "@border-radius-round",
+			"borderWidth": "@border-width",
+			"borderStyle": "solid",
+			"borderColor": "@form-border-color",	
+
+	        "colorForeGround" : "@form-background",
+		    "colorButton" : "@form-border-color"
+	     }
+	}	
+]

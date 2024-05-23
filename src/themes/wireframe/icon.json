@@ -1,0 +1,203 @@
+[ {
+	"id" : "Icon",
+	"type" : "Icon",
+	"category" : "Advanced",
+	"subcategory" : "FormSpecialIcon",
+	"_type" : "Widget",
+	"name" : "Icon",
+	"x" : 0,
+	"y" : 0,
+	"w": "@box-width-xs",
+	"h": "@box-height-xs",
+	"z" : 0,
+	"props" : {},
+	"has" : {
+		"onclick" : true,
+		"data" : true
+	},
+	"actions" : {},
+	"style" : {
+		"borderTopRightRadius" : 0,
+		"borderTopLeftRadius" : 0,
+		"borderBottomRightRadius" : 0,
+		"borderBottomLeftRadius" : 0,
+		"borderTopWidth" : 0,
+		"borderBottomWidth" : 0,
+		"borderRightWidth" : 0,
+		"borderLeftWidth" : 0,
+		"borderTopColor" : "transparent",
+		"borderBottomColor" : "transparent",
+		"borderRightColor" : "transparent",
+		"borderLeftColor" : "transparent",
+		"color" : "@color-icon",
+		"icon" : "mdi mdi-android"
+	}
+}, {
+	"id" : "WireFrameIconToggleStar",
+	"category" : "Advanced",
+	"subcategory" : "FormSpecialIcon",
+	"type" : "IconToggle",
+	"name" : "Favorite Button",
+	"_type" : "Widget",
+	"x" : 0,
+	"y" : 0,
+	"w": "@box-width-xs",
+	"h": "@box-height-xs",
+	"z" : 0,
+	"props" : {
+		"activeIcon" : "mdi mdi-star",
+		"passiveIcon" : "mdi mdi-star-outline",
+		"active" : false
+	},
+	"has" : {},
+	"style" : {
+		"activeColor" : "@color-active",
+		"passiveColor" : "@color-passive"
+	}
+}, {
+	"id" : "WireFrameIconToggleLock",
+	"category" : "Advanced",
+	"subcategory" : "FormSpecialIcon",
+	"type" : "IconToggle",
+	"name" : "Lock Button",
+	"_extends": "WireFrameIconToggleStar",
+	"_type" : "Widget",
+	"x" : 0,
+	"y" : 0,
+	"w": "@box-width-xs",
+	"h": "@box-height-xs",
+	"z" : 0,
+	"props" : {
+		"activeIcon" : "mdi mdi-lock",
+		"passiveIcon" : "mdi mdi-lock-open",
+		"active" : false
+	},
+	"has" : {},
+	"style" : {	
+	}
+}, {
+	"id" : "WireFrameIconToggleLock2",
+	"category" : "Advanced",
+	"subcategory" : "FormSpecialIcon",
+	"type" : "IconToggle",
+	"name" : "Lock Button",
+	"_type" : "Widget",
+	"_extends": "WireFrameIconToggleStar",
+	"z" : 0,
+	"x" : 0,
+	"y" : 0,
+	"w": "@box-width-xs",
+	"h": "@box-height-xs",
+	"props" : {
+		"activeIcon" : "mdi mdi-lock-outline",
+		"passiveIcon" : "mdi mdi-lock-open-outline",
+		"active" : false
+	},
+	"has" : {},
+	"style" : {		
+	}
+}, {
+	"id" : "WireFrameIconToggleLike",
+	"category" : "Advanced",
+	"subcategory" : "FormSpecialIcon",
+	"type" : "IconToggle",
+	"name" : "Like Button",
+	"_extends": "WireFrameIconToggleStar",
+	"_type" : "Widget",
+	"x" : 0,
+	"y" : 0,
+	"w": "@box-width-xs",
+	"h": "@box-height-xs",
+	"props" : {
+		"activeIcon" : "mdi mdi-thumb-up",
+		"passiveIcon" : "mdi mdi-thumb-up-outline",
+		"active" : false
+	},
+	"has" : {},
+	"style" : {
+	}
+}, {
+	"id" : "WireFrameIconToggleDislike",
+	"category" : "Advanced",
+	"subcategory" : "FormSpecialIcon",
+	"type" : "IconToggle",
+	"name" : "Dislike Button",
+	"_extends": "WireFrameIconToggleStar",
+	"_type" : "Widget",	
+	"z" : 0,
+	"x" : 0,
+	"y" : 0,
+	"w": "@box-width-xs",
+	"h": "@box-height-xs",
+	"props" : {
+		"activeIcon" : "mdi mdi-thumb-down",
+		"passiveIcon" : "mdi mdi-thumb-down-outline",
+		"active" : false
+	},
+	"has" : {},
+	"style" : {
+	}
+},{
+	
+	"id" : "WireFrameIconToggleHeart",
+	"category" : "Advanced",
+	"subcategory" : "FormSpecialIcon",
+	"type" : "IconToggle",
+	"name" : "Heart Button",
+	"_extends": "WireFrameIconToggleStar",
+	"_type" : "Widget",
+	"z" : 0,
+	"x" : 0,
+	"y" : 0,
+	"w": "@box-width-xs",
+	"h": "@box-height-xs",
+	"props" : {
+		"activeIcon" : "mdi mdi-heart",
+		"passiveIcon" : "mdi mdi-heart-outline",
+		"active" : false
+	},
+	"has" : {},
+	"style" : {
+	}
+	
+}, 
+{
+	"id" : "WireFrameLabeledIconToggleLike",
+	"category" : "Advanced",
+	"subcategory" : "FormSpecialIcon",
+	"type" : "LabeledIconToggle",
+	"name" : "Like Label",
+	"_type" : "Widget",
+	"x" : 0,
+	"y" : 0,
+	"w": "@box-width-xl",
+	"h": "@box-height-xs",
+	"z" : 0,
+	"props" : {
+		"activeIcon" : "mdi mdi-thumb-up",
+		"passiveIcon" : "mdi mdi-thumb-up-outline",
+		"active" : false,
+		"label": "Like"
+	},
+	"has" : {
+		"label" : true,
+		"padding" : true
+	},
+	"style" : {
+		"fontSize": "@font-size-m",
+		"fontFamily": "@font-family",
+		"textAlign" : "left",
+		"background": "@form-background",
+
+		"paddingTop": 0,
+		"paddingBottom": 0,
+		"paddingRight": 0,
+		"paddingLeft" : "@spacing-s",
+
+		"color": "transparent",
+		"verticalAlign" : "middle",
+		"activeColor" : "@form-color",
+		"passiveColor" : "@form-color"
+	}
+}
+]
