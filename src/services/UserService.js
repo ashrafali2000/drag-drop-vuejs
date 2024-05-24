@@ -554,6 +554,9 @@ class UserService extends AbstractService {
         if (!this.isValidUser(user)) {
           user = this.DEFAULT_USER;
         }
+      }else {
+        user = this.DEFAULT_USER;
+         this.setTTL(user);
       }
     } catch (error) {
       this.logger.error("load", "Error loading user data", error);
