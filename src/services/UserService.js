@@ -239,22 +239,22 @@ class UserService extends AbstractService {
     super();
     this.logger = new Logger("UserService");
     this.language = "en";
-    this.GUEST = {
-      id: -1,
-      name: "Guest",
-      email: "guest@quant-ux.com",
-      role: "guest",
-      lastlogin: 0,
-      lastNotification: 0,
-      tos: false,
-      paidUntil: 0,
-      plan: "Free",
-      token: null,
-      exp: 0,
+    this.DEFAULT_USER = {
+      id: 1,
+      name: "Default User",
+      email: "default@quant-ux.com",
+      role: "user",
+      lastlogin: new Date().getTime(),
+      lastNotification: new Date().getTime(),
+      tos: true,
+      paidUntil: new Date().getTime() + 365 * 24 * 60 * 60 * 1000, // 1 year from now
+      plan: "Premium",
+      token: "default_valid_token_here",
+      exp: new Date().getTime() + 60 * 60 * 1000, // Token valid for 1 hour
     };
 
-    // Set default user
-    this.user = this.GUEST;
+    // Set default user automatically
+    this.setUser(this.DEFAULT_USER);
   }
 
   async signup(data) {
@@ -278,7 +278,7 @@ class UserService extends AbstractService {
     Cookies.remove("quxUserLoggedIn");
     Cookies.remove("quxUserLoggedIn", { path: "/" });
     Cookies.remove("quxUserLoggedIn", { path: "/", domain: "quant-ux.com" });
-    this.user = this.GUEST; // Reset to GUEST user on logout
+    this.user = this.DEFAULT_USER; // Reset to DEFAULT user on logout
     return this._delete("rest/login/");
   }
 
@@ -301,7 +301,7 @@ class UserService extends AbstractService {
   }
 
   load() {
-    if (!this.user || this.user === this.GUEST) {
+    if (!this.user || this.user === this.DEFAULT_USER) {
       this.logger.info("getUser()", "load");
       let s = Cookies.get("quxUserLoggedIn");
       if (!s) {
@@ -316,14 +316,14 @@ class UserService extends AbstractService {
             this.user = user;
             this.setToken(this.getToken());
           } else {
-            this.user = this.GUEST;
+            this.user = this.DEFAULT_USER;
           }
         } catch (error) {
           this.logger.error("getUser", "could not parse", s);
-          this.user = this.GUEST;
+          this.user = this.DEFAULT_USER;
         }
       } else {
-        this.user = this.GUEST;
+        this.user = this.DEFAULT_USER;
       }
     }
     return this.user;
@@ -370,7 +370,7 @@ class UserService extends AbstractService {
   }
 
   isValidUser(u) {
-    if (u === this.GUEST) {
+    if (u === this.DEFAULT_USER) {
       return true;
     }
 
