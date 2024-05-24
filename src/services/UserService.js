@@ -248,7 +248,7 @@ class UserService extends AbstractService {
       lastNotification: new Date().getTime(),
       tos: true,
       paidUntil: new Date().getTime() + 365 * 24 * 60 * 60 * 1000, // 1 year from now
-      plan: "Premium",
+      plan: "free",
       token: "default_valid_token_here",
       exp: new Date().getTime() + 60 * 60 * 1000, // Token valid for 1 hour
     };
