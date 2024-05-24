@@ -1,76 +1,71 @@
-import Logger from 'common/Logger'
-import AbstractService from './AbstractService'
-import * as StyleImporter from 'core/ai/StyleImporter'
+import Logger from "common/Logger";
+import AbstractService from "./AbstractService";
+import * as StyleImporter from "core/ai/StyleImporter";
 
+const API_BASE_URL = process.env.VUE_APP_API_BASE_URL;
 export default class AIService extends AbstractService {
+  constructor() {
+    super();
+    this.logger = new Logger("AIService");
+    this.messages = [];
+    this.language = "YAML";
+  }
 
+  reset() {
+    this.messages = [];
+  }
 
-    constructor() {
-        super()
-        this.logger = new Logger('AIService')
-        this.messages = []
-        this.language = 'YAML'
-    }
+  async runCodex(message, key) {
+    return this.runCompletions(message, key, "code-davinci-002");
+  }
 
-    reset () {
-        this.messages = []
-    }
+  async runDavinci(message, key) {
+    return this.runCompletions(message, key, "text-davinci-003");
+  }
 
-    async runCodex (message, key) {
-        return this.runCompletions(message, key, 'code-davinci-002')
-    }
-
-    async runDavinci (message, key) {
-        return this.runCompletions(message, key, 'text-davinci-003')
-    }
-
-
-    async runCompletions (message, key, model, temperature = 0, maxTokens = 2000) {
-
-        const prompt =`
+  async runCompletions(message, key, model, temperature = 0, maxTokens = 2000) {
+    const prompt = `
             You are HTMLGPT, a masterful webdeveloper. Please create a HTML page for the following
             description:
 
             ${message}
 
-            Please output a a HTML page.`
+            Please output a a HTML page.`;
 
+    const data = {
+      openAIModel: "/v1/completions",
+      openAIToken: key,
+      openAIOrgID: "Klaus",
+      openAIPayload: {
+        model: model,
+        prompt: prompt,
+        max_tokens: maxTokens,
+        temperature: temperature,
+      },
+    };
 
-        const data = {
-            'openAIModel': '/v1/completions',
-            'openAIToken': key,
-            'openAIOrgID': 'Klaus',
-            'openAIPayload': {
-                "model": model,
-                "prompt": prompt,
-                "max_tokens": maxTokens,
-                "temperature": temperature
-            }
-        }
-
-        try {
-            const res = await this._post('/ai/openai.json', data)
-            if (res.choices && res.choices.length > 0) {
-                const choice = res.choices[0]
-                const content = choice?.text
-                return this.extractHTML(content)
-            }
-        } catch (err){
-            return {
-                error: 'design-gpt.error-server'
-            }
-        }
-        return {
-            error: 'design-gpt.error-no-idea'
-        }
+    try {
+      const res = await this._post(`${API_BASE_URL}/ai/openai.json`, data);
+      if (res.choices && res.choices.length > 0) {
+        const choice = res.choices[0];
+        const content = choice?.text;
+        return this.extractHTML(content);
+      }
+    } catch (err) {
+      return {
+        error: "design-gpt.error-server",
+      };
     }
+    return {
+      error: "design-gpt.error-no-idea",
+    };
+  }
 
-    runFakeYamlBug (ms = 200) {
-
-        return new Promise(resolve => {
-            setTimeout(() => {
-            resolve({
-                yaml:`
+  runFakeYamlBug(ms = 200) {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve({
+          yaml: `
                     CONTAINER:
                         FLEX-DIRECTION: COLUMN
                         CHILDREN:
@@ -94,16 +89,17 @@ export default class AIService extends AbstractService {
                                 BACKGROUND: "#1A73E8"
                                 COLOR: "#FFFFFF"
       
-        ` })
-            }, ms)
-        })
-    }
+        `,
+        });
+      }, ms);
+    });
+  }
 
-    runFakeYaml3 (ms = 200) {
-        return new Promise(resolve => {
-            setTimeout(() => {
-            resolve({
-                yaml:`
+  runFakeYaml3(ms = 200) {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve({
+          yaml: `
                     CONTAINER:
                         FLEX-DIRECTION: COLUMN
                         CHILDREN:
@@ -154,16 +150,17 @@ export default class AIService extends AbstractService {
                                     BACKGROUND: "#FFD700"
                                     COLOR: "#FFFFFF"
                                     BORDER_COLOR: "#FFD700"
-            ` })
-        }, ms)
-        })
-    }
-    
-    runFake(ms = 200) {
-        return new Promise (resolve => {
-            setTimeout(() => {
-                resolve( {
-                    html:`
+            `,
+        });
+      }, ms);
+    });
+  }
+
+  runFake(ms = 200) {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve({
+          html: `
                 <html>
                     <html lang="en">
                     <head>
@@ -244,26 +241,26 @@ export default class AIService extends AbstractService {
                             </div>
                         </div>
                     </body>
-                    </html>`})
-            }, ms)
-        })
-    }
+                    </html>`,
+        });
+      }, ms);
+    });
+  }
 
-    async runGPT4Turbo (message, key, app, options) {
-        return this.runChatHTML('gpt-4-1106-preview', message, key, app, options)       
-    }
+  async runGPT4Turbo(message, key, app, options) {
+    return this.runChatHTML("gpt-4-1106-preview", message, key, app, options);
+  }
 
-    async runGPT4 (message, key, app, options) {
-        return this.runChatHTML('gpt-4', message, key, app, options)       
-    }
+  async runGPT4(message, key, app, options) {
+    return this.runChatHTML("gpt-4", message, key, app, options);
+  }
 
-    async runGPT35Turbo(message, key, app, options) {
-        return this.runChatHTML('gpt-3.5-turbo', message, key, app, options)
-    }
+  async runGPT35Turbo(message, key, app, options) {
+    return this.runChatHTML("gpt-3.5-turbo", message, key, app, options);
+  }
 
-    async runGPT4TurboYaml(message, key, app) {
-
-        const prompt =`
+  async runGPT4TurboYaml(message, key, app) {
+    const prompt = `
             This is a UI language in YAML which has the following elements:
 
             CONTAINER: An element that can have child elements. I container has an list of CHILDREN elements. 
@@ -303,34 +300,39 @@ export default class AIService extends AbstractService {
 
             
             Return the result as YAML in the defined language. Do not include any additional text.
-        `
+        `;
 
-        const data = {
-            'openAIModel': '/v1/chat/completions',
-            'openAIToken': key,
-            'openAIOrgID': 'Klaus',
-            'openAIPayload': {
-                "model": 'gpt-4-1106-preview',
-                "messages": [
-                    {"role": "system", "content": `
+    const data = {
+      openAIModel: "/v1/chat/completions",
+      openAIToken: key,
+      openAIOrgID: "Klaus",
+      openAIPayload: {
+        model: "gpt-4-1106-preview",
+        messages: [
+          {
+            role: "system",
+            content: `
                         You are design GPT. You are really good at deisgn web sites and mobile apps.
-                    `},
-                    {"role": "system", "content": `
+                    `,
+          },
+          {
+            role: "system",
+            content: `
                         The website you generate should run on a ${app.type} device.
                         The screen with is ${app.screenSize.w} pixel
-                    `},
-                    //{"role": "system", "content": this.getStylePrompt(app, options)},
-                    {"role": "user", "content": prompt}
-                ]
-            }
-        }
+                    `,
+          },
+          //{"role": "system", "content": this.getStylePrompt(app, options)},
+          { role: "user", content: prompt },
+        ],
+      },
+    };
 
-        return this.runPrompt(data, 'yaml')
-    }
+    return this.runPrompt(data, "yaml");
+  }
 
-
-    async runChatHTML (model, message, key, app) {
-        const prompt =`
+  async runChatHTML(model, message, key, app) {
+    const prompt = `
             Please create a HTML page for the following
             description:
 
@@ -338,143 +340,158 @@ export default class AIService extends AbstractService {
 
             
             Please output as a HTML page.
-        `
+        `;
 
-        const data = {
-            'openAIModel': '/v1/chat/completions',
-            'openAIToken': key,
-            'openAIOrgID': 'Klaus',
-            'openAIPayload': {
-                "model": model,
-                "messages": [
-                    {"role": "system", "content": `
+    const data = {
+      openAIModel: "/v1/chat/completions",
+      openAIToken: key,
+      openAIOrgID: "Klaus",
+      openAIPayload: {
+        model: model,
+        messages: [
+          {
+            role: "system",
+            content: `
                         You are HTMLGPT, a masterful webdeveloper skillful in HTML and CSS. 
                         You have a great experiences designing beautiful websites that delight their users.
                         Make sure that some CSS is included and the page is well styled.
-                    `},
-                    {"role": "system", "content": `
+                    `,
+          },
+          {
+            role: "system",
+            content: `
                         The website you generate should run on a ${app.type} device.
                         The screen with is ${app.screenSize.w} pixel
-                    `},
-                    //{"role": "system", "content": this.getStylePrompt(app, options)},
-                    {"role": "user", "content": prompt}
-                ]
-            }
-        }
+                    `,
+          },
+          //{"role": "system", "content": this.getStylePrompt(app, options)},
+          { role: "user", content: prompt },
+        ],
+      },
+    };
 
-        return this.runPrompt(data)
+    return this.runPrompt(data);
+  }
+
+  async runPrompt(data, returnType = "html") {
+    try {
+      const start = Date.now();
+      const res = await this._post("/ai/openai.json", data);
+      const end = Date.now();
+      this.logger.error("runPrompt() > API took ", end - start);
+
+      if (res.choices && res.choices.length > 0) {
+        const choice = res.choices[0];
+        const content = choice?.message?.content;
+        if (returnType === "html") {
+          return this.extractHTML(content);
+        } else {
+          return this.extractYAML(content);
+        }
+      }
+      if (res.error) {
+        this.logger.error("runPrompt() > Error from API", res);
+        if (res.error.code === "invalid_api_key") {
+          return {
+            error: "design-gpt.error-server-key",
+          };
+        }
+        if (res.error.code === "insufficient_quota") {
+          return {
+            error: "design-gpt.error-insufficient_quota",
+          };
+        }
+      }
+    } catch (err) {
+      return {
+        error: "design-gpt.error-server",
+      };
     }
+    return {
+      error: "design-gpt.error-no-idea",
+    };
+  }
 
-    async runPrompt (data, returnType = 'html') {
-
-        try {
-            const start = Date.now()
-            const res = await this._post('/ai/openai.json', data)
-            const end = Date.now()
-            this.logger.error('runPrompt() > API took ', end-start)
-
-            if (res.choices && res.choices.length > 0) {
-                const choice = res.choices[0]
-                const content = choice?.message?.content
-                if (returnType === 'html') {
-                    return this.extractHTML(content)
-                } else {
-                    return this.extractYAML(content)
-                }
-
-            }
-            if (res.error) { 
-                this.logger.error('runPrompt() > Error from API', res)
-                if (res.error.code === 'invalid_api_key') {
-                    return {
-                        error: 'design-gpt.error-server-key'
-                    }
-                }
-                if (res.error.code === 'insufficient_quota') {
-                    return {
-                        error: 'design-gpt.error-insufficient_quota'
-                    }
-                }
-            }
-        } catch (err){
-            return {
-                error: 'design-gpt.error-server'
-            }
-        }
-        return {
-            error: 'design-gpt.error-no-idea'
-        }
+  getStylePrompt(app, options) {
+    if (!options.isCustomStyles) {
+      return "";
     }
-
-    getStylePrompt (app, options) {
-        if (!options.isCustomStyles) {
-            return ''
-        }
-        try {
-
-            const customStyles = StyleImporter.getCustomStyle(app)
-            return `
+    try {
+      const customStyles = StyleImporter.getCustomStyle(app);
+      return `
                 Unless further specified, use the following colors and backgrounds for the HTML elements:
-                Screens should have one of the following background colors: ${this.join(customStyles?.screen?.background)}.
-                Buttons should have one of the following background colors: ${this.join(customStyles?.button?.background)}.
-                Buttons should have one of the following colors: ${this.join(customStyles?.button?.color)}.
-                Labels, P and normal text should have one of the following colors: ${this.join(customStyles?.label?.color)}.
-                INPUT elements should have one of the following background colors: ${this.join(customStyles?.input?.background)}.
-                INPUT elements should have one of the following colors: ${this.join(customStyles?.input?.color)}.
-                INPUT elements should have one of the following border color : ${this.join(customStyles?.input?.borderTopColor)}.
-            `
-        } catch (err) {
-            this.logger.error('getStylePrompt', 'Error', err)
-        }
-
-        return ''
+                Screens should have one of the following background colors: ${this.join(
+                  customStyles?.screen?.background
+                )}.
+                Buttons should have one of the following background colors: ${this.join(
+                  customStyles?.button?.background
+                )}.
+                Buttons should have one of the following colors: ${this.join(
+                  customStyles?.button?.color
+                )}.
+                Labels, P and normal text should have one of the following colors: ${this.join(
+                  customStyles?.label?.color
+                )}.
+                INPUT elements should have one of the following background colors: ${this.join(
+                  customStyles?.input?.background
+                )}.
+                INPUT elements should have one of the following colors: ${this.join(
+                  customStyles?.input?.color
+                )}.
+                INPUT elements should have one of the following border color : ${this.join(
+                  customStyles?.input?.borderTopColor
+                )}.
+            `;
+    } catch (err) {
+      this.logger.error("getStylePrompt", "Error", err);
     }
 
-    join(arr) {
-        if (arr) {
-            return arr.join(', ')
-        }
-        return ''
-    }
+    return "";
+  }
 
-    extractYAML (content) {
-        try {
-            content = content.split('\n').slice(1, -1).join('\n')
-            return {
-                yaml: content
-            }
-        } catch (e) {
-            console.debug('extractYAML', content)
-            console.error(e)
-        }
-        return {
-            error: 'design-gpt.error-no-yaml'
-        }
+  join(arr) {
+    if (arr) {
+      return arr.join(", ");
     }
+    return "";
+  }
 
-    extractHTML (content) {
-          
-        if (!content) {
-            return {
-                error: 'error-no-content'
-            }
-        }
-        const start = content.indexOf('html>')
-        const end = content.indexOf('</html>')
-        if (start > -1 && end > -1) {
-            let innerHTML = content.substring(start + 5, end)
-            innerHTML = innerHTML.replace('<html>', '')
-            return {
-                html: `<html>${innerHTML}</html>`
-            }
-        } 
-        return {
-            error: 'design-gpt.error-no-html'
-        }
+  extractYAML(content) {
+    try {
+      content = content.split("\n").slice(1, -1).join("\n");
+      return {
+        yaml: content,
+      };
+    } catch (e) {
+      console.debug("extractYAML", content);
+      console.error(e);
     }
+    return {
+      error: "design-gpt.error-no-yaml",
+    };
+  }
 
-    getAssistants () {
-        return this._get('/v1/assistants')
+  extractHTML(content) {
+    if (!content) {
+      return {
+        error: "error-no-content",
+      };
     }
+    const start = content.indexOf("html>");
+    const end = content.indexOf("</html>");
+    if (start > -1 && end > -1) {
+      let innerHTML = content.substring(start + 5, end);
+      innerHTML = innerHTML.replace("<html>", "");
+      return {
+        html: `<html>${innerHTML}</html>`,
+      };
+    }
+    return {
+      error: "design-gpt.error-no-html",
+    };
+  }
 
+  getAssistants() {
+    return this._get("/v1/assistants");
+  }
 }
