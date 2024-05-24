@@ -168,10 +168,9 @@ export default new VueRouter({
     },
     {
       path: "/",
-      name: "AnalyticCanvasPage",
+      name: "",
       children: matcRoutes,
-      component: () =>
-        import(/* webpackChunkName: "matc" */ "views/apps/Design.vue"),
+      component: () => import(/* webpackChunkName: "matc" */ "views/QUX.vue"),
     },
     {
       path: "/test/DojoTest.html",

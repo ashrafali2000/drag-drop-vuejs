@@ -311,6 +311,7 @@ export default {
 };
 </script> -->
 
+<!-- new code -->
 <template>
   <div
     :class="
@@ -375,7 +376,7 @@ export default {
               </div>
             </div>
           </div>
-          <!-- login-->
+       
 
           <div class="MatcLoginContent">
             <div class="MatcLoginPageSection">
@@ -419,7 +420,7 @@ export default {
               </div>
             </div>
           </div>
-          <!-- new -->
+   
 
           <div class="MatcLoginContent">
             <div class="MatcLoginPageSection" v-if="resetToken">
@@ -452,13 +453,13 @@ export default {
               </div>
             </div>
           </div>
-          <!-- reset-->
+         
         </div>
-        <!-- end wrapper-->
+ 
       </div>
-      <!-- Container -->
+   
     </div>
-    <!-- Dialog -->
+
   </div>
 </template>
 
@@ -480,8 +481,8 @@ export default {
     return {
       hasLoginError: false,
       resetToken: false,
-      email: "test@example.com", // Hard-coded email
-      password: "password123", // Hard-coded password
+      email: "test@example.com", 
+      password: "password123", 
       tos: false,
       errorMessage: " ",
       tab: "login",
