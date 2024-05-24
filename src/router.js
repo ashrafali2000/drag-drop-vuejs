@@ -167,7 +167,7 @@ export default new VueRouter({
         import(/* webpackChunkName: "design" */ "views/apps/Design.vue"),
     },
     {
-      path: "/apps/:id/analyze/workspace.html",
+      path: "/",
       name: "AnalyticCanvasPage",
       children: matcRoutes,
       component: () =>
