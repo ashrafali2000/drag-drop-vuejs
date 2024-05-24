@@ -325,13 +325,13 @@ export default {
           <a
             :class="{ MatcToolbarTabActive: tab === 'login' }"
             @click="setTab('login')"
-            >Login</a
+            >Login 1</a
           >
           <a
             :class="{ MatcToolbarTabActive: tab === 'signup' }"
             @click="setTab('signup')"
             v-if="allowSignUp"
-            >Sign Up</a
+            >Sign Up -1</a
           >
         </div>
 
