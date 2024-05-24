@@ -169,8 +169,8 @@ export default new VueRouter({
     {
       path: "/",
       name: "",
-      meta: { viewMode: "Heatmap" },
-      component: () => import(/* webpackChunkName: "matc" */ "views/apps/Design.vue"),
+      children: matcRoutes,
+      component: () => import(/* webpackChunkName: "matc" */ "views/QUX.vue"),
     },
     {
       path: "/test/DojoTest.html",
