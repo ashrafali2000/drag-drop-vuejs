@@ -312,7 +312,7 @@ export default {
 </script> -->
 
 <!-- new code -->
-<!-- <template>
+<template>
   <div
     :class="
       'MatcLoginPage ' +
@@ -622,4 +622,4 @@ export default {
     await this.login(); // Auto-login when the component mounts
   },
 };
-</script> -->
+</script>
