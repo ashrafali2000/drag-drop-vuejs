@@ -664,7 +664,7 @@ class UserService extends AbstractService {
     this.user = u;
     localStorage.setItem("quxUser", JSON.stringify(u));
     Cookies.set("quxUserLoggedIn", JSON.stringify(u), {
-      domain: "quant-ux.com",
+      domain: "https://drag-drop-vuejs-alpha.vercel.app/",
       expires: 7,
       secure: true,
       path: "/",
